@@ -715,11 +715,13 @@ Con esta implementación se comprendió la diferencia entre Row y LazyRow, así 
 \subsection{Practica 4. States en Jetpack Compose}
 
 \subsubsection{Introducción}
-En esta práctica se aborda el manejo de estados mediante Jetpack Compose, un conjunto de herramientas que permite desarrollar interfaces de usuario para aplicaciones Android. Se estudia el funcionamiento de los estados y su utilización para almacenar valores que pueden modificarse durante la ejecución de una aplicación.
+En esta práctica se aborda el manejo de estados mediante Jetpack Compose, una herramienta que permite desarrollar interfaces de usuario para aplicaciones Android utilizando Kotlin. El objetivo es comprender cómo almacenar valores que pueden modificarse durante la ejecución de una aplicación y cómo reflejar dichos cambios en la interfaz.
 
-Durante el desarrollo se implementa una variable denominada counter, utilizando mutableStateOf() para establecer un valor inicial y remember para conservar su estado durante las recomposiciones de la interfaz. Posteriormente, se emplea rememberSaveable para mantener el valor almacenado cuando se producen cambios en la configuración del dispositivo.
+Durante el desarrollo se utiliza una variable denominada \texttt{counter}, cuyo valor inicial se establece mediante la función \texttt{mutableStateOf()}. Asimismo, se emplea \texttt{remember} para conservar el estado durante las recomposiciones de la interfaz.
 
-Asimismo, se utiliza el componente Text para mostrar el valor de la variable dentro de la interfaz, permitiendo observar cómo se refleja el estado en la pantalla. El propósito de esta práctica es comprender la importancia de los estados en Jetpack Compose y conocer algunas de las herramientas disponibles para administrarlos.
+Posteriormente, se incorpora una interacción mediante el modificador \texttt{clickable()}, que permite incrementar el valor del contador al presionar un icono. Finalmente, se utiliza \texttt{rememberSaveable} para conservar el estado ante cambios de configuración del dispositivo, como la rotación de la pantalla.
+
+De esta manera, la práctica permite conocer el funcionamiento de los estados en Jetpack Compose y comprender cómo se utilizan para actualizar dinámicamente los elementos de una interfaz.
 
 \subsubsection{Herramientas y tecnologías utilizadas}
 
@@ -748,91 +750,116 @@ Asimismo, se utiliza el componente Text para mostrar el valor de la variable den
 \end{itemize}
 
 \subsubsection{Procedimiento}
-En primer lugar, se incorporó un componente Row para organizar horizontalmente una imagen de favorito y un elemento de texto que muestra un valor numérico. Para representar el icono se utilizó un recurso vectorial dentro de la carpeta drawable del proyecto.
+
+En primer lugar, se utilizó la herramienta Vector Asset de Android Studio para incorporar un recurso gráfico al proyecto. Para ello, se seleccionó la carpeta drawable y se inició el proceso de creación de un nuevo recurso vectorial.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{Practica3_codigo1}
-	\caption{Creación de un nuevo asset en la carpeta drawable}
+	\caption{Selección de la carpeta drawable para agregar un nuevo recurso gráfico al proyecto.}
 	\label{fig:practica3codigo1}
 \end{figure}
 
-Posteriormente, se creó el recurso gráfico mediante la herramienta Vector Asset de Android Studio, seleccionando un icono de corazón. El archivo generado se almacenó con el nombre favorite1.xml, permitiendo utilizarlo dentro de la interfaz mediante painterResource()
+Posteriormente, se seleccionó un icono de corazón dentro de la herramienta Vector Asset. Este recurso se utilizó como representación gráfica de una interacción de favorito dentro de la interfaz de la aplicación.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{Practica3_codigo2}
-	\caption{Creación del nuevo asset favorite1}
+	\caption{Selección del icono de corazón mediante la herramienta Vector Asset.}
 	\label{fig:practica3codigo2}
 \end{figure}
 
-Despues de crear el vertical asset en la carpeta drawable se tiene una nueva figura para utilizarla en nuestro proyecto
+Una vez seleccionado el icono, Android Studio generó el archivo correspondiente dentro de la carpeta drawable. El recurso se identificó con el nombre \texttt{favorite1.xml}, permitiendo utilizarlo posteriormente desde el código de Kotlin.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{Practica3_codigo3}
-	\caption{Vertical asset en la carpeta drawable}
+	\caption{Generación del recurso vectorial favorite1.xml dentro de la carpeta drawable.}
 	\label{fig:practica3codigo3}
 \end{figure}
 
-Para poder hacer uso de esta imagen se creo el componente row y se imprimio el asset favorite1 que se mostrara en el simulador 
+Después de crear el recurso gráfico, se incorporó a la interfaz mediante el componente \texttt{Image}. Asimismo, se utilizó un componente \texttt{Row} para organizar horizontalmente el icono y el texto que representa el valor del contador.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{Practica3_codigo4}
-	\caption{Vertical asset en la carpeta drawable}
+	\caption{Incorporación del recurso favorite1 mediante Image y organización de los elementos con Row.}
 	\label{fig:practica3codigo4}
 \end{figure}
 
-Se modifico la columna para que pudiera tener un modifier para modificar la estructura del asset y poder moverla de posicion, en este caso en la parte de abajo de la imagen 
+Posteriormente, se configuró el modificador \texttt{Modifier} para establecer propiedades de espaciado y ajustar la posición de los elementos dentro de la interfaz. Con ello se buscó mejorar la distribución visual del icono y del texto.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{Practica3_codigo5}
-	\caption{Vertical asset en la carpeta drawable}
+	\caption{Configuración del modificador Modifier para ajustar la presentación del recurso gráfico.}
 	\label{fig:practica3codigo5}
 \end{figure}
 
-Asimismo se muestra en el simulador el como quedo el resultado despues de aplicar el modificador en el simulador 
+Después de incorporar el recurso vectorial y configurar su presentación, se ejecutó la aplicación en el emulador de Android para comprobar que el icono de corazón apareciera correctamente dentro de la interfaz.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\textwidth]{Practica3_codigo6}
-	\caption{Verificacion de la creación del asset favorite1}
+	\caption{Visualización inicial del icono de corazón dentro de la aplicación en el emulador.}
 	\label{fig:practica3codigo6}
 \end{figure}
 
-A continuación, se agregó una variable denominada counter dentro de la función App(), utilizando remember y mutableStateOf(0) para establecer un estado inicial con valor cero. También se incorporaron las importaciones necesarias para utilizar estas funciones, incluyendo mutableStateOf, remember y getValue.
+A continuación, se declaró una variable denominada \texttt{counter} dentro de la función \texttt{App()}, utilizando \texttt{remember} y \texttt{mutableStateOf(0)} para establecer un estado inicial con valor cero. También se incorporaron las importaciones necesarias para utilizar estas funciones, incluyendo \texttt{mutableStateOf}, \texttt{remember} y \texttt{getValue}.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Practica3_codigo7}
+	\caption{Declaración de la variable counter mediante remember y mutableStateOf con un valor inicial de cero.}
+	\label{fig:practica3codigo7}
+\end{figure}
 
+Posteriormente, se ejecutó la aplicación para observar el comportamiento de la interfaz y comprobar la visualización del contador junto al icono de corazón. Durante las pruebas se modificó el valor del contador, obteniendo como resultado el número cinco.
 
-Posteriormente, se agregó la propiedad clickable() al
-modificador de la imagen del corazón, permitiendo
-detectar las interacciones del usuario. Dentro de
-esta propiedad se implementó la instrucción
-counter++, la cual incrementa en una unidad el
-valor almacenado en la variable counter cada vez
-que se presiona la imagen.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\textwidth]{Practica3_codigo8}
+	\caption{Visualización del contador junto al icono de corazón en el emulador de Android.}
+	\label{fig:practica3codigo8}
+\end{figure}
 
-Debido a que counter es una variable de estado,
-la modificación de su valor provoca una
-recomposición de la interfaz, actualizando el
-número que se muestra junto al icono del corazón.
+Después, se modificó la declaración de la variable para utilizar \texttt{rememberSaveable} en lugar de \texttt{remember}, manteniendo \texttt{mutableStateOf(0)} como valor inicial. Esta función permite guardar y restaurar el estado ante cambios de configuración del dispositivo, como la rotación de la pantalla.
 
-Después, se modificó el componente Text que inicialmente mostraba un valor fijo de uno. En su lugar, se utilizó counter.toString() para representar el valor almacenado en la variable de estado y mostrarlo dentro de la interfaz.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Practica3_codigo9}
+	\caption{Sustitución de remember por rememberSaveable para conservar el estado del contador.}
+	\label{fig:practica3codigo9}
+\end{figure}
 
-Posteriormente, se modificó la declaración de la variable counter, sustituyendo val por var. Este cambio permite modificar el valor de la variable durante la ejecución de la aplicación, manteniendo su declaración mediante remember y mutableStateOf().
+Asimismo, se incorporó el modificador \texttt{clickable()} al componente \texttt{Image}. Dentro de este modificador se agregó la instrucción \texttt{counter++}, la cual permite incrementar en una unidad el valor de la variable cada vez que el usuario presiona el icono de corazón.
 
-Finalmente, se sustituyó remember por rememberSaveable, conservando mutableStateOf(0) como valor inicial. Con esta modificación se busca mantener el estado almacenado ante cambios de configuración del dispositivo. Se ejecutó la aplicación en el emulador para comprobar la visualización del valor y observar su comportamiento al cambiar la orientación de la pantalla.
+Debido a que \texttt{counter} representa una variable de estado, cada modificación de su valor provoca una recomposición de la interfaz, actualizando automáticamente el número mostrado junto al icono.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Practica3_codigo10}
+	\caption{Implementación de clickable() para incrementar el contador al presionar el icono de corazón.}
+	\label{fig:practica3codigo10}
+\end{figure}
+
+Finalmente, se comprobó la presentación de la aplicación en orientación horizontal. En esta vista se observa la imagen, el título, el icono de corazón y los diferentes textos organizados horizontalmente. Esta prueba permitió observar la distribución de los componentes al cambiar la orientación del dispositivo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Practica3_codigo11}
+	\caption{Visualización de la interfaz de usuario y del contador en orientación horizontal.}
+	\label{fig:practica3codigo11}
+\end{figure}
 
 \subsubsection{Resultados}
-Como resultado de esta práctica, se implementó un mecanismo de almacenamiento de estados mediante las funciones mutableStateOf(), remember y rememberSaveable de Jetpack Compose.
+Como resultado de esta práctica, se implementó un mecanismo de manejo de estados mediante las funciones \texttt{mutableStateOf()}, \texttt{remember} y \texttt{rememberSaveable} de Jetpack Compose.
 
-Se consiguió mostrar un valor numérico junto a un icono de corazón dentro de la interfaz de usuario. Durante las pruebas se observaron diferentes valores del contador, incluyendo el valor inicial de cero y un valor posterior de cinco.
+Se consiguió incorporar un icono de corazón a la interfaz y asociarlo con una variable de estado denominada \texttt{counter}. Mediante el modificador \texttt{clickable()} se agregó una interacción que permite incrementar el valor del contador al presionar el icono.
 
-También se comprobó la presentación de la interfaz en orientación vertical y horizontal, utilizando rememberSaveable para conservar el estado ante cambios de configuración del dispositivo.
+Durante las pruebas realizadas en el emulador de Android se comprobó la visualización del valor numérico junto al recurso gráfico. También se observó la presentación de la interfaz en orientación vertical y horizontal, utilizando \texttt{rememberSaveable} para conservar el estado ante cambios de configuración.
 
-Mediante esta práctica se comprendió cómo se pueden declarar y utilizar variables de estado en Jetpack Compose, así como la importancia de estos mecanismos para mantener actualizada la información mostrada en una aplicación Android.
+Finalmente, se comprendió cómo las variables de estado permiten actualizar dinámicamente los elementos de una interfaz mediante la recomposición, así como la importancia de conservar la información cuando se producen cambios en la configuración del dispositivo.
 
 
 \end{document}
